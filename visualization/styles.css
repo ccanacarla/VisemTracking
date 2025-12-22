@@ -1,0 +1,341 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap');
+
+.explication {
+    font-family: 'Roboto', sans-serif;
+    color: #333;
+    background-color: white;
+    padding: 20px;
+    margin: 20px auto;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(136, 132, 132, 0.1);
+    line-height: 1.6;
+}
+
+/* Estilo para o título */
+.explication h2 {
+    font-size: 1.8em;
+    color: #2c3e50;
+    text-align: left;
+    margin-bottom: 15px;
+    border-bottom: 2px solid #3498db;
+    padding-bottom: 5px;
+}
+
+/* Estilo para os parágrafos */
+.explication p {
+    text-align: left;
+    font-size: 1em;
+    margin-bottom: 15px;
+}
+
+/* Estilo para as palavras destacadas */
+.explication strong {
+    color: #3498db;
+    font-weight: bold;
+}
+
+/* Ajuste para o container */
+.explication p:last-child {
+    margin-bottom: 0;
+}
+
+.explication img {
+    display: block;
+    width: 450px;
+    margin: 0 auto;
+    max-width: 100%;
+}
+
+#titulo {
+    display: flex;
+    background-color: #1a1a2e;
+    align-items: center;
+    border-radius: 0 0 8px 8px;
+
+}
+
+.custom-header {
+    background-color: #ddd;
+    /* Cor do fundo do topo */
+    font-family: 'Roboto', sans-serif;
+    width: 100%;
+    color: #7f7c7c;
+    /* Cor do texto */
+    font-size: 0.8em;
+    border-radius: 8px 8px 0 0;
+    text-align: center;
+    /* Centraliza o texto */
+    padding: 5px 5px;
+}
+
+#menu-text {
+    color: #e9ecef;
+    font-size: 16px;
+    padding-left: 20px;
+    font-family: 'Roboto', sans-serif;
+    margin-right: auto;
+    /* Move o texto para a esquerda */
+}
+
+#menuSuperior {
+    display: flex;
+    justify-content: flex-end;
+    /* Alinha o menu à direita */
+    background-color: #1a1a2e;
+    /* Cor de fundo elegante */
+    padding: 0px 0px;
+    border-radius: 0 0 8px 8px;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+#menuSuperior a {
+    color: #e9ecef;
+    /* Texto em tom claro */
+    text-decoration: none;
+    margin: 0 10px;
+    padding: 10px 20px;
+    font-family: 'Roboto', sans-serif;
+    font-size: 16px;
+    border-radius: 0 0 8px 8px;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+#menuSuperior a:hover {
+    background-color: #162447;
+    /* Efeito de hover */
+    color: #f8f9fa;
+}
+
+#menuSuperior a.active {
+    background-color: #162447;
+    /* Destaque da página atual */
+    color: #f8f9fa;
+}
+
+/* Estilo das seções */
+.section {
+    padding: 30px;
+    margin: 20px 0;
+    background: #f8f9fa;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    /*border: 2px solid green;*/
+
+}
+
+/* Estilo para o corpo da página */
+body {
+    font-family: 'Roboto', sans-serif;
+    color: #333;
+    padding: 0 20px 20px 20px;
+    background-color: #f4f4f4;
+    /* Cor de fundo mais suave */
+}
+
+
+/* Estilo do título */
+h1 {
+    text-align: center;
+    margin-bottom: 10px;
+    color: #2c3e50;
+    font-size: 24px;
+}
+
+/* Estilo para o parágrafo com os autores */
+p {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #2c3e50;
+    font-size: 16px;
+}
+
+/* Estilo do dropdown de seleção */
+.dropdown {
+    width: 80%;
+    height: auto;
+    /* Faz com que ocupe toda a largura disponível */
+    display: flex;
+    gap: 10px;
+}
+#tipo{
+    width: 80px;
+}
+#espermatozoides{
+    width: 90px;
+}
+
+#individuos{
+    width: 100px;
+}
+/* Estilo para o rótulo do dropdown */
+.dropdown select {
+    padding: 5px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 12px;
+    transition: border-color 0.3s;
+    width: 200px;
+    /* Tamanho do dropdown */
+}
+
+/* Estilo quando o select está em foco */
+select:focus {
+    border-color: #8e8a8a;
+    outline: none;
+}
+
+
+/* Container geral com conteúdo centralizado */
+.container {
+    margin: auto;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    padding: 20px;
+    margin: 20px auto;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    min-height: 200px;
+    background-color: #ffffff;
+
+}
+
+
+.button_exp {
+    border: none;
+    margin-left: 10px;
+    background-color: rgb(136, 137, 136);
+    border-radius: 4px;
+    width: 300px;
+    height: 20px;
+    color: rgb(206, 207, 206);
+}
+
+.img_exp {
+    padding-top: 20px;
+    width: 100%;
+    border-radius: 8px;
+}
+
+.container2 {
+    display: flex;
+    flex-direction: column;
+    width: 20%;
+    gap: 10px;
+    /* Espaçamento entre as divs */
+
+}
+
+.container3 {
+    display: flex;
+    flex-direction: column;
+    width: 47%;
+    gap: 10px;
+    /* Espaçamento entre as divs */
+
+}
+.container4 {
+    display: flex;
+    flex-direction: column;
+    width: 30%;
+    gap: 10px;
+    /* Espaçamento entre as divs */
+
+}
+/* Estilo para os glifos com borda */
+.glifos {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+    height: 600px; /* Certifique-se de que a altura seja consistente */
+     /* Impede elementos de "vazar" */
+
+    border: 1px solid #ddd;
+    border-radius: 8px;
+
+}
+.glifos svg{
+    overflow: visible;
+    margin-top: 40px;
+}
+
+
+.glifo_metric {
+    position: relative; /* Necessário para centralização */
+    display: flex;      /* Flexbox ajuda na centralização */
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    width: 100%;
+    height: 100%; /* Deve preencher seu contêiner pai */
+    overflow: hidden; /* Impede que elementos "vazem" */
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    
+}
+/* Estilo para o elemento video */
+video {
+    display: flex;
+    width: 100%;
+    /* Faz o vídeo ocupar toda a largura do container */
+    border-radius: 8px;
+}
+
+
+.coord {
+    position: relative;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    /* Borda mais suave */
+    width: 100%;
+    height: 450px;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+
+#coord svg {
+    /* Borda mais suave */
+    border-radius: 8px;
+    overflow: hidden;
+}
+.barras {
+    display: flex; /* Ativa o flexbox */
+    width: 32.5%;
+    flex-direction: row; /* Organiza os elementos lado a lado (horizontal) */
+    justify-content: space-between; /* Adiciona espaço entre as divs */
+    align-items: flex-start; /* Alinha as divs no topo */
+    gap: 20px; /* Espaço entre as divs */
+    
+    border: 1px solid #ddd;
+    border-radius: 8px; /* Bordas arredondadas */
+}
+
+#barras, #barrasAMH svg{
+    width: 90%;
+    height: 400px; /* Define a altura das divs */
+    padding: 0px; /* Espaçamento interno */
+    background-color: #f9f9f900; /* Cor de fundo */
+}
+
+.plot-container {
+    width: calc(50% - 10px);
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 10px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+.row.selected rect {
+  stroke: black;
+  stroke-width: 1;
+}
