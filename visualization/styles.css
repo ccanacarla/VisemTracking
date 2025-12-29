@@ -339,3 +339,23 @@ video {
   stroke: black;
   stroke-width: 1;
 }
+.behavior-rug-wrap {
+  width: 100vw;
+  height: auto;
+  display: grid;
+  grid-template-columns: auto 1fr auto; /* left labels | glyphs scroll | legend */
+  gap: 0;
+}
+
+.behavior-rug-left,
+.behavior-rug-right {
+  overflow: hidden;           /* fixos */
+}
+
+.behavior-rug-center {
+  overflow: auto;             /* scroll só aqui */
+}
+
+.behavior-rug-svg {
+  display: block;
+}
