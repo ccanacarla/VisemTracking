@@ -93,31 +93,53 @@ body {
     overflow-y: auto;
 }
 
-/* --- Estilos do Behavior Rug Interno --- */
+/* --- styles.css --- */
+
+/* Wrapper principal agora gerencia o Scroll (Vertical e Horizontal) */
 .behavior-rug-wrap {
     width: 100%;
-    height: 100%;
-    display: grid;
-    grid-template-columns: auto 1fr auto; /* Labels | Gráfico | Legenda */
-    overflow: hidden;
-}
-
-.behavior-rug-left,
-.behavior-rug-right {
-    background: #fff;
-    z-index: 2;
-    overflow: hidden; /* Sem scroll, controlado via JS ou fixo */
-    
-}
-
-.behavior-rug-right {
-    
-    border-right: none;
-}
-
-.behavior-rug-center {
-    overflow: auto; /* Scroll principal */
+    /* Altura será definida dinamicamente ou herdada, conforme o layout */
+    overflow: auto; 
     position: relative;
+    background: #fff;
+}
+
+/* Novo container interno para manter Esquerda e Centro alinhados lado a lado */
+.behavior-rug-inner-container {
+    display: flex;
+    flex-direction: row;
+    width: max-content; /* Garante que o container expanda horizontalmente sem quebrar linha */
+    position: relative;
+}
+
+/* Coluna Esquerda (Labels) */
+.behavior-rug-left {
+    /* Sticky Horizontal: Fixa a coluna na esquerda ao rolar horizontalmente */
+    position: sticky;
+    left: 0;
+    z-index: 10; /* Garante que fique acima do conteúdo central */
+    background: #fff; /* Cor de fundo opaca é essencial para sobrepor o conteúdo */
+    border-right: 1px solid #ddd;
+    /* Removemos overflow daqui, pois o pai controla o scroll vertical */
+}
+
+/* Coluna Central (Glifos) */
+.behavior-rug-center {
+    /* Removemos overflow daqui */
+    position: relative;
+    z-index: 1;
+}
+
+/* Painel da Legenda (Direita) */
+/* Mantém absolute relativo ao wrap, mas cuidado: ele rolará junto com o conteúdo se não for 'fixed' 
+   ou tratado separadamente. Para manter funcionalidade original de 'flutuante', 
+   o container da legenda deve estar fora do .behavior-rug-inner-container ou usar sticky também. */
+.behavior-rug-right {
+    position: sticky; /* Opcional: faz a legenda acompanhar o scroll horizontal se desejado, ou use absolute fixo no viewport */
+    right: 20px;
+    top: 20px;
+    margin-left: -200px; /* Ajuste visual se necessário */
+    /* ...restante dos estilos originais... */
 }
 
 /* Destaque da linha selecionada */

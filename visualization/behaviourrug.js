@@ -184,7 +184,7 @@ export function drawBehaviorRug(data, containerSelector, onTrajectoryClick = nul
 
   /**
    * Retorna um valor canônico:
-   * "Parado" | "Muito_Lento" | "Lento" | "Medio" | "Rapido" | "Muito_Rapido"
+   * "Muito_Lento" | "Lento" | "Medio" | "Rapido" | "Muito_Rapido"
    */
   function getSpeed(symbol) {
     if (!symbol) return null;
@@ -193,7 +193,6 @@ export function drawBehaviorRug(data, containerSelector, onTrajectoryClick = nul
     if (t.includes("muito_rapido") || t.includes("muito-rapido") || t.includes("muitorapido")) return "Muito_Rapido";
     if (t.includes("muito_lento")  || t.includes("muito-lento")  || t.includes("muitolento"))  return "Muito_Lento";
 
-    if (t.includes(normalizeToken(SPEED_STRINGS?.PARADO ?? "parado"))) return "Parado";
     if (t.includes(normalizeToken(SPEED_STRINGS?.LENTO  ?? "lento")))  return "Lento";
     if (t.includes(normalizeToken(SPEED_STRINGS?.MEDIO  ?? "medio")))  return "Medio";
 
@@ -223,12 +222,11 @@ export function drawBehaviorRug(data, containerSelector, onTrajectoryClick = nul
   const mixToWhite = (t) => d3.interpolateRgb("#ffffff", baseColor)(t);
 
   // Ordem claro -> escuro
-  const SPEED_LEVELS = ["Parado", "Muito_Lento", "Lento", "Medio", "Rapido", "Muito_Rapido"];
+  const SPEED_LEVELS = ["Muito_Lento", "Lento", "Medio", "Rapido", "Muito_Rapido"];
 
   // Stops (0 = branco, 1 = baseColor). Ajuste livre.
-  // Aqui: Parado quase branco; Muito_Rapido quase baseColor.
+  // Aqui: Muito_Lento quase branco; Muito_Rapido quase baseColor.
   const SPEED_T = {
-    Parado: 0.10,
     Muito_Lento: 0.25,
     Lento: 0.45,
     Medio: 0.65,
@@ -446,12 +444,12 @@ export function drawBehaviorRug(data, containerSelector, onTrajectoryClick = nul
         .attr("height", cellSize)
         .attr("fill", (d, i) => {
             if (turnIndices.has(i)) return "#d2b4de";
-            if (lentoIndices.has(i)) return "orange";
+            if (lentoIndices.has(i)) return "#fae3b1ff";
             return VISUALIZATION_CONFIG.cellBackgroundColor || "#fff";
         })
         .attr("stroke", (d, i) => {
             if (turnIndices.has(i)) return "#8e44ad";
-            if (lentoIndices.has(i)) return "#d35400";
+            if (lentoIndices.has(i)) return "#fbbe63ff";
             return VISUALIZATION_CONFIG.cellBorderColor || "#ddd";
         })
         .attr("stroke-width", (d, i) => (turnIndices.has(i) || lentoIndices.has(i)) ? 1.5 : (VISUALIZATION_CONFIG.cellBorderWidth ?? 0.5))
@@ -464,15 +462,6 @@ export function drawBehaviorRug(data, containerSelector, onTrajectoryClick = nul
 
         // Se speed não reconhecido, usa intermediário
         const fill = colorForSpeed(d.speed || "Medio");
-
-        if (d.speed === "Parado") {
-          el.append("circle")
-            .attr("cx", cx).attr("cy", cy)
-            .attr("r", Math.max(1.5, cellSize * 0.2))
-            .attr("fill", fill)
-            .style("pointer-events", "none");
-          return;
-        }
 
         let path = null;
         if (d.dir === DIRECTION_STRINGS.N) path = pathN;
@@ -549,24 +538,14 @@ export function drawBehaviorRug(data, containerSelector, onTrajectoryClick = nul
       const rowY = i * 20;
       const fill = colorForSpeed(s);
 
-      if (s === "Parado") {
-        gSpeed.append("circle")
-          .attr("cx", 8)
-          .attr("cy", rowY + 8)
-          .attr("r", 3)
-          .attr("fill", fill)
-          .attr("stroke", "#999")
-          .attr("stroke-width", 0.2);
-      } else {
-        gSpeed.append("rect")
-          .attr("x", 0)
-          .attr("y", rowY)
-          .attr("width", 16)
-          .attr("height", 16)
-          .attr("fill", fill)
-          .attr("stroke", "#999")
-          .attr("stroke-width", 0.2);
-      }
+      gSpeed.append("rect")
+        .attr("x", 0)
+        .attr("y", rowY)
+        .attr("width", 16)
+        .attr("height", 16)
+        .attr("fill", fill)
+        .attr("stroke", "#999")
+        .attr("stroke-width", 0.2);
 
       gSpeed.append("text")
         .attr("x", 25)

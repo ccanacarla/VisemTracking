@@ -1,84 +1,127 @@
+// main.js
 import { linePins } from './linePins.js';
 import { drawBehaviorRug } from './behaviourrug.js';
-import { drawFlowRadarGlyph } from './glyph.js';
 import { drawTrajectoryView } from './trajectoryView.js';
 
 const container = document.querySelector('.container');
-let data;
+let fullData; // Renomeei para garantir que tenhamos sempre o original
 
 async function main() {
-    // Carrega dados (simulado ou real)
-    data = await d3.csv("outputs/symbolic.csv");
-    
-    // Inicia com o Behavior Rug por padrão
-    showBehaviorRug();
+    fullData = await d3.csv("outputs/symbolic.csv");
+    // Inicia com o Heatmap para dar a visão geral primeiro (sugestão de fluxo)
+    showClusterHeatmap(); 
 }
 
 function clearContainer() {
     container.innerHTML = '';
-    // Remove classes específicas de layout para não afetar outras views
     container.classList.remove('rug-view-layout');
     container.style.overflow = 'auto'; 
 }
 
 function showLinePins() {
     clearContainer();
-    linePins(data, '.container');
+    linePins(fullData, '.container');
 }
 
-function showBehaviorRug() {
+/**
+ * Exibe o Behavior Rug.
+ * @param {Array} [dataToRender] - Opcional. Se passado, renderiza apenas este subconjunto.
+ * @param {String} [title] - Opcional. Título para contexto (ex: "Cluster 3").
+ */
+function showBehaviorRug(dataToRender = null, title = null) {
     clearContainer();
     
-    // Adiciona classe para ativar o Grid Layout (Split View)
+    // Se não passar dados filtrados, usa tudo
+    const dataset = dataToRender || fullData;
+
     container.classList.add('rug-view-layout');
-    container.style.overflow = 'hidden'; // Impede scroll duplo
+    container.style.overflow = 'hidden'; 
+
+    // Adicionei um header pequeno para indicar se estamos filtrando
+    let headerHtml = '';
+    if (title) {
+        headerHtml = `<div style="padding: 5px 10px; background: #fffbe6; border-bottom: 1px solid #ddd; font-size: 12px; display: flex; justify-content: space-between; align-items: center;">
+                        <span>Visualizando filtro: <strong>${title}</strong> (${dataset.length} trajetórias)</span>
+                        <button id="clear-filter-btn" style="cursor:pointer; font-size:10px;">Remover Filtro</button>
+                      </div>`;
+    }
 
     container.innerHTML = `
-        <div id="rug-panel"></div>
-        <div id="glyph-panel">
-            <div style="text-align:center; margin-top: 50%; color:#888;">
-                <p>Selecione uma trajetória<br/>para visualizar o glifo detalhado.</p>
+        <div style="display:flex; flex-direction:column; height:100%;">
+            ${headerHtml}
+            <div style="flex:1; display:grid; grid-template-columns: 3fr 1fr; gap:10px; overflow:hidden;">
+                <div id="rug-panel"></div>
+                <div id="glyph-panel">
+                    <div style="text-align:center; margin-top: 50%; color:#888;">
+                        <p>Selecione uma trajetória</p>
+                    </div>
+                </div>
             </div>
         </div>
     `;
 
-    // Passamos a função de callback para desenhar o detalhe
-    drawBehaviorRug(data, '#rug-panel', showGlyphForTrajectory);
-}
+    // Remove estilos inline do HTML anterior para usar o grid interno novo
+    // O container principal não é mais grid direto, mas sim o div interno
+    container.classList.remove('rug-view-layout'); 
+    // Ajuste CSS necessário para esse novo layout interno:
+    const rugPanel = document.getElementById('rug-panel');
+    rugPanel.style.background = "#fff";
+    rugPanel.style.overflow = "hidden";
+    rugPanel.style.border = "1px solid #ddd";
 
-function showFlowRadarGlyph() {
-    clearContainer();
-    drawFlowRadarGlyph(data, '.container');
+    const glyphPanel = document.getElementById('glyph-panel');
+    glyphPanel.style.background = "#fff";
+    glyphPanel.style.overflowY = "auto";
+    glyphPanel.style.border = "1px solid #ddd";
+    glyphPanel.style.padding = "10px";
+
+    drawBehaviorRug(dataset, '#rug-panel', showGlyphForTrajectory);
+
+    // Botão para limpar filtro
+    const btn = document.getElementById('clear-filter-btn');
+    if (btn) {
+        btn.onclick = () => showBehaviorRug(null, null); // Reseta
+    }
 }
 
 function showGlyphForTrajectory(traj, opts) {
+    // ... (mesmo código anterior) ...
     const panel = document.getElementById('glyph-panel');
     panel.innerHTML = '';
-
-    // 1. Visualização da Trajetória (topo)
     const trajDiv = document.createElement('div');
     trajDiv.id = 'trajectory-viz-container';
     trajDiv.style.width = '100%';
-    trajDiv.style.paddingBottom = '10px';
-    trajDiv.style.borderBottom = '1px solid #eee';
-    trajDiv.style.marginBottom = '10px';
+    trajDiv.style.height = '300px'; // Altura fixa ajuda
     panel.appendChild(trajDiv);
-
     drawTrajectoryView(traj, '#trajectory-viz-container', opts);
-
-    // 2. Glifo detalhado (LinePins) (abaixo)
+    
     const glyphDiv = document.createElement('div');
     glyphDiv.id = 'glyph-detail-container';
     glyphDiv.style.width = '100%';
     panel.appendChild(glyphDiv);
-
-    // Renderiza o LinePin único no painel lateral
     linePins([traj], '#glyph-detail-container');
 }
 
-// Event Listeners
+function showMarkovAnalysis() {
+    clearContainer();
+    
+    const header = document.createElement("div");
+    header.style.textAlign = "center";
+    header.style.padding = "10px";
+    header.innerHTML = `<h3>Dinâmica de Transição (Markov 1ª Ordem)</h3>
+                        <p style="font-size:12px; color:#666">Probabilidade Média de Transição (Linha → Coluna). Diagonal indica estabilidade.</p>`;
+    container.appendChild(header);
+
+    const gridDiv = document.createElement("div");
+    gridDiv.id = "markov-container";
+    container.appendChild(gridDiv);
+
+    drawMarkovMatrices(fullData, "#markov-container");
+}
+
+document.getElementById('markov-btn').addEventListener('click', showMarkovAnalysis);
 document.getElementById('line-pins-btn').addEventListener('click', showLinePins);
-document.getElementById('behavior-rug-btn').addEventListener('click', showBehaviorRug);
-document.getElementById('glyph-btn').addEventListener('click', showFlowRadarGlyph);
+document.getElementById('behavior-rug-btn').addEventListener('click', () => showBehaviorRug());
+
 
 main();
